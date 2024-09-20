@@ -30,7 +30,7 @@ const AddProduct = () => {
 
     await fetch(`${backendUrl}/upload`,{
       method:'POST',
-      mode: 'no-cors',
+      // mode: 'no-cors',
       headers:{
         Accept:'application/json',
       },
@@ -43,10 +43,9 @@ const AddProduct = () => {
       console.log(product);
       await fetch(`${backendUrl}/addproduct`,{
         method:'POST',
-        mode: 'no-cors',
+        // mode: 'no-cors',
         headers:{
           Accept:'application/json',
-          'Content-Type':'application/json',
         },
         body:JSON.stringify(product),
       }).then((resp)=>resp.json()).then((data)=>{

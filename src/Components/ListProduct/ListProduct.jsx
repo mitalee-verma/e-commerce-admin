@@ -1,39 +1,38 @@
-import React, { useState, useEffect } from "react";
-import "./ListProduct.css";
-import cross_icon from "../../assets/cross_icon.png";
+import React,{useState,useEffect} from 'react'
+import './ListProduct.css'
+import cross_icon from'../../assets/cross_icon.png'
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const ListProduct = () => {
-  const [allproducts, setAllProducts] = useState([]);
 
-  const fetchInfo = async () => {
+  const[allproducts,setAllProducts] = useState([]);
+
+  const fetchInfo = async ()=>{
     await fetch(`${backendUrl}/allproducts`, {
-      mode: "no-cors",
+      // mode: 'no-cors',
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setAllProducts(data);
-      });
-  };
+    .then((res)=>res.json())
+    .then((data)=>{setAllProducts(data)});
+  }
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchInfo();
-  }, []);
+  },[])
 
-  const remove_product = async (id) => {
-    await fetch(`${backendUrl}/removeproduct`, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+  const remove_product = async (id)=>{
+    await fetch(`${backendUrl}/removeproduct`,{
+      method:'POST',
+      // mode: 'no-cors',
+      headers:{
+        Accept:'application/json',
+        'Content-Type':'application/json',
       },
-      body: JSON.stringify({ id: id }),
-    });
+      body:JSON.stringify({id:id})
+    })
     await fetchInfo();
-  };
+  }
   return (
-    <div className="list-product">
+    <div className='list-product'>
       <h1>All Products List</h1>
       <div className="listproduct-format-main">
         <p>Products</p>
@@ -44,39 +43,23 @@ const ListProduct = () => {
         <p>Remove</p>
       </div>
       <div className="listproduct-allproducts">
-        <hr />
-        {allproducts.map((product, index) => {
-          return (
-            <>
-              <div
-                key={index}
-                className="listproduct-format-main listproduct-format"
-              >
-                <img
-                  src={product.image}
-                  alt=""
-                  className="listproduct-product-icon"
-                />
-                <p>{product.name}</p>
-                <p>${product.old_price}</p>
-                <p>${product.new_price}</p>
-                <p>{product.category}</p>
-                <img
-                  onClick={() => {
-                    remove_product(product.id);
-                  }}
-                  className="listproduct-remove-icon"
-                  src={cross_icon}
-                  alt=""
-                />
-              </div>
-              <hr />
-            </>
-          );
+        <hr/>
+        {allproducts.map((product,index)=>{
+          return <>
+          <div key={index} className="listproduct-format-main listproduct-format">
+            <img src={product.image}alt="" className="listproduct-product-icon" />
+              <p>{product.name}</p>
+              <p>${product.old_price}</p>
+              <p>${product.new_price}</p>
+              <p>{product.category}</p>
+              <img onClick={()=>{remove_product(product.id)}} className='listproduct-remove-icon' src={cross_icon} alt="" />
+          </div>
+          <hr/>
+          </>
         })}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default ListProduct;
